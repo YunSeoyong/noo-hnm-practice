@@ -5,10 +5,10 @@ import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
-
-import { priceComma } from "../utill/priceComma";
 import { faBagShopping, faCartShopping, faRuler } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
+
+import { priceComma } from "../utill/priceComma";
 
 const ProductDetail = () => {
     const [product, setProduct] = useState(null);
