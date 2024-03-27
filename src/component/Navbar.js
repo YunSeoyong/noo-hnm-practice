@@ -16,7 +16,10 @@ const menuList = [
     "지속가능성",
 ];
 
-const Navbar = () => {
+const Navbar = ({
+    authenticate,
+    setAuthenticate,
+}) => {
     const [menuToggle, setMenuToggle] = useState(false);
     const [side, setSide] = useState(false);
     const navigate = useNavigate();
@@ -34,6 +37,16 @@ const Navbar = () => {
         }, 500);
     };
 
+    const goToLogin = () => {
+        navigate('/login');
+    };
+    const goToLogout = () => {
+        if (window.confirm('정말 로그아웃 하시겠습니까?')) {
+            setAuthenticate(false);
+            navigate('/');
+        }
+    };
+
     return (
         <NavBar>
             <Row1>
@@ -43,9 +56,11 @@ const Navbar = () => {
                     </button>
                     <input type="text" id="search" placeholder="Search..." />
                 </SearchForm>
-                <Utill>
+                <Utill onClick={authenticate ? goToLogout : goToLogin}>
                     <FontAwesomeIcon icon={faUser} size="xl" />
-                    <p className="utill-text">로그인</p>
+                    <p className="utill-text">{
+                        authenticate ? "로그아웃" : "로그인"
+                    }</p>
                 </Utill>
             </Row1>
             <Logo onClick={() => navigate('/')}>
@@ -71,9 +86,18 @@ const Navbar = () => {
 export default Navbar;
 
 const NavBar = styled.header`
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     width: 100%;
-    margin-bottom: 30px;
+    height: 65px;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.2);
+
+    @media screen and (min-width: 1024px) {
+        height: 170px;
+    }
 `;
 
 const Row1 = styled.div`
@@ -134,10 +158,11 @@ const Utill = styled.div`
 
 const Logo = styled.p`
     position: absolute;
-    top: -2px;
+    top: 20px;
     left: 55px;
     width: 42px;
     height: 28px;
+    cursor: pointer;
 
     img {
         width: 100%;
@@ -154,7 +179,7 @@ const Logo = styled.p`
 `;
 const NavBtn = styled.button`
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 20px;
 
     @media screen and (min-width: 1024px) {
@@ -240,7 +265,7 @@ const Nav = styled.nav`
     @media screen and (min-width: 1024px) {
         display: block;
         position: initial;
-        background-color: none;
+        background-color: transparent;
         opacity: 1;
 
         button {
@@ -251,7 +276,7 @@ const Nav = styled.nav`
             transform: translateX(0);
             width: 100%;
             height: auto;
-            background-color: none;
+            background-color: transparent;
             padding: 0;
             flex-direction: row;
             justify-content: center;
