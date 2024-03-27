@@ -7,7 +7,7 @@ const ProductAll = () => {
     const [productList, setProductList] = useState([]);
 
     const getProducts = async () => {
-        const url = 'http://localhost:5000/products';
+        const url = 'https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products';
         try {
             const response = await fetch(url);
             if(!response.ok) {

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import styled from "styled-components";
+
 import { Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping, faCartShopping, faRuler } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
 
 import { priceComma } from "../utill/priceComma";
 
@@ -15,7 +17,7 @@ const ProductDetail = () => {
     let { id } = useParams();
 
     const getProductDetail = async () => {
-        const url = `http://localhost:5000/products/${id}`;
+        const url = `https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products/${id}`;
         try {
             const response = await fetch(url);
             if (!response.ok) {
