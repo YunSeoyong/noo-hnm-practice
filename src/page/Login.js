@@ -27,20 +27,20 @@ const Login = ({
             <Form onSubmit={(e) => {loginUser(e)}}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email Address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" value={email} onChange={(e) => {setEmail(e.target.value)}} />
+                    <Form.Control type="email" placeholder="E-mail을 작성해 주세요." value={email} onChange={(e) => {setEmail(e.target.value)}} />
                     <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
+                        저희 H&M은 절대 고객의 개인정보를 공개 및 공유하지 않습니다.
                     </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <Form.Control type="password" placeholder="비밀번호를 작성해 주세요." value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
+                    <Form.Check type="checkbox" label="로봇이 아닙니다." />
                 </Form.Group>
                 <Button variant="danger" type="submit">
-                    Submit
+                    LogIn
                 </Button>
             </Form>
         </Container>

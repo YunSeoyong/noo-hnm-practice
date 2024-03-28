@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { faBagShopping, faBars, faCartShopping, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
+import ShoppingCart from "./ShoppingCart";
 
 const menuList = [
     "Women",
@@ -19,9 +21,13 @@ const menuList = [
 const Navbar = ({
     authenticate,
     setAuthenticate,
+    setChoiceProducts,
+    choiceProducts,
 }) => {
     const [menuToggle, setMenuToggle] = useState(false);
     const [side, setSide] = useState(false);
+    const [search, setSearch] = useState('');
+    const [cart, setCart] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -46,16 +52,38 @@ const Navbar = ({
             navigate('/');
         }
     };
+    
+    const clickSearchBtn = () => {
+        search === "" ? alert('검색어를 입력해주세요.') : navigate(`/?q=${search}`);
+        setSearch('');
+    };
+    
+    const onSearch = (e) => {
+        if(e.key === 'Enter') {
+            clickSearchBtn();
+        }
+    };
 
     return (
         <NavBar>
             <Row1>
                 <SearchForm className="searchForm">
-                    <button className="btnSearch">
+                    <button className="btnSearch" onClick={clickSearchBtn}>
                         <FontAwesomeIcon icon={faSearch} />
                     </button>
-                    <input type="text" id="search" placeholder="Search..." />
+                    <input 
+                        type="text" 
+                        id="search" 
+                        placeholder="Search..." 
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        onKeyPress={e => onSearch(e)}
+                    />
                 </SearchForm>
+                <Cart onClick={() => setCart(true)}>
+                    <FontAwesomeIcon icon={faBagShopping} size="xl" />
+                </Cart>
+                <ShoppingCart cart={cart} setCart={setCart} choiceProducts={choiceProducts} setChoiceProducts={setChoiceProducts} />
                 <Utill onClick={authenticate ? goToLogout : goToLogin}>
                     <FontAwesomeIcon icon={faUser} size="xl" />
                     <p className="utill-text">{
@@ -111,7 +139,7 @@ const Row1 = styled.div`
     }
 `;
 
-const SearchForm = styled.form`
+const SearchForm = styled.div`
     position: relative;
     margin-right: 24px;
     min-width: 140px;
@@ -145,6 +173,7 @@ const Utill = styled.div`
     display: flex;
     align-items: center;
     cursor: pointer;
+    margin-left: 12px;
 
     .utill-text {
         margin-left: 8px;
@@ -154,6 +183,11 @@ const Utill = styled.div`
     &:hover .utill-text{
         color: var(--base-active);
     }
+`;
+
+const Cart = styled.div`
+    padding: 2px;
+    cursor: pointer;
 `;
 
 const Logo = styled.p`

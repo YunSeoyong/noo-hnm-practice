@@ -5,8 +5,10 @@ import ProductDetail from '../page/ProductDetail';
 
 const PrivateRoute = ({
     authenticate,
+    setChoiceProducts,
+    choiceProducts,
 }) => {
-  return authenticate ? <ProductDetail /> : <Navigate to="/login" />
+  return authenticate ? <ProductDetail setChoiceProducts={setChoiceProducts} choiceProducts={choiceProducts} /> : <Navigate to="/login" />
 }
 
 export default PrivateRoute;

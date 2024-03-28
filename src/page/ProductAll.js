@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
+import { useSearchParams } from 'react-router-dom';
+
 import styled from 'styled-components';
+import { Col, Container, Row } from 'react-bootstrap';
+
 import ProductCard from '../component/ProductCard';
+import SlideBn from '../component/SlideBn';
 
 const ProductAll = () => {
     const [productList, setProductList] = useState([]);
+    const [query, setQuery] = useSearchParams();
 
     const getProducts = async () => {
-        const url = 'https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products';
+        const searchQuery = query.get('q') || "";
+        const url = `https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products/?q=${searchQuery}`;
         try {
             const response = await fetch(url);
             if(!response.ok) {
@@ -22,14 +28,11 @@ const ProductAll = () => {
 
     useEffect(() => {
         getProducts();
-    }, []);
+    }, [query]);
 
   return (
     <ProdcutPage>
-        <Bn>
-            <img src='/assets/main-pc.jpg' alt='bn' />
-            <p>S/S 2024</p>
-        </Bn>
+        <SlideBn />
         <Container fluid="true">
             <Row>
                 {productList.map(menu => 
@@ -70,27 +73,5 @@ const ProdcutPage = styled.section`
         .col-6 {
             margin-bottom: 80px;
         }
-    }
-`;
-
-const Bn = styled.div`
-    position: relative;
-    width: 100%;
-    height: auto;
-    margin-bottom: 40px;
-
-    img {
-        width: 100%;
-        height: auto;
-    }
-
-    P {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: clamp(3rem, 4vw, 8rem);
-        font-weight: 700;
-        opacity: 0.8;
     }
 `;

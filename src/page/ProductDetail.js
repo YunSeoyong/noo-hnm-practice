@@ -12,7 +12,9 @@ import { faBagShopping, faCartShopping, faRuler } from "@fortawesome/free-solid-
 
 import { priceComma } from "../utill/priceComma";
 
-const ProductDetail = () => {
+const ProductDetail = ({
+    setChoiceProducts,
+}) => {
     const [product, setProduct] = useState(null);
     let { id } = useParams();
 
@@ -33,6 +35,10 @@ const ProductDetail = () => {
     useEffect(() => {
         getProductDetail();
     }, []);
+
+    const clickBtnAdd = () => {
+        setChoiceProducts(prev => [...prev, product]);
+    };
 
     return (
         <Container fluid="xxl" as="section" className="product-detail">
@@ -69,13 +75,13 @@ const ProductDetail = () => {
                         </p>
                     </LinkBox>
                     <div className="d-grid gap-2">
-                        <Button variant="dark">
-                            <FontAwesomeIcon icon={faBagShopping} />
-                            <span>장바구니 추가</span>
-                        </Button>
                         <Button variant="danger">
                             <FontAwesomeIcon icon={faCartShopping} />
                             <span>바로 구매하기</span>
+                        </Button>
+                        <Button variant="dark" onClick={clickBtnAdd}>
+                            <FontAwesomeIcon icon={faBagShopping} />
+                            <span>장바구니 추가</span>
                         </Button>
                     </div>
                 </Col>
