@@ -1,12 +1,17 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faX } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import { priceComma } from "../utill/priceComma";
+import { useDispatch, useSelector } from "react-redux";
+import { productAction } from "../redux/actions/productAction";
 
-const ShoppingCart = ({ cart, setCart, setChoiceProducts, choiceProducts }) => {
+const ShoppingCart = ({ cart, setCart }) => {
+    const choiceProducts = useSelector(state => state.product.choiceProducts);
+    const dispatch = useDispatch();
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
@@ -23,17 +28,7 @@ const ShoppingCart = ({ cart, setCart, setChoiceProducts, choiceProducts }) => {
     };
 
     const deleteProduct = (targetId) => {
-        const deletedProduct = choiceProducts.find(
-            (item) => item.id === targetId
-        );
-        if (deletedProduct) {
-            const newTotalPrice = totalPrice - deletedProduct.price;
-            setTotalPrice(newTotalPrice);
-            const newArrProducts = choiceProducts.filter(
-                (item) => item.id !== targetId
-            );
-            setChoiceProducts(newArrProducts);
-        }
+        dispatch(productAction.deleteChoiceProduct(targetId, totalPrice, setTotalPrice));
     };
 
     const cancelBag = () => {

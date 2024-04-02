@@ -11,33 +11,20 @@ import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping, faCartShopping, faRuler } from "@fortawesome/free-solid-svg-icons";
 
 import { priceComma } from "../utill/priceComma";
+import { useDispatch, useSelector } from "react-redux";
+import { productAction } from "../redux/actions/productAction";
 
-const ProductDetail = ({
-    setChoiceProducts,
-}) => {
-    const [product, setProduct] = useState(null);
+const ProductDetail = () => {
+    const product = useSelector(state => state.product.product);
+    const dispatch = useDispatch();
     let { id } = useParams();
 
-    const getProductDetail = async () => {
-        const url = `https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products/${id}`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("데이터를 불러오지 못하고 있습니다.");
-            }
-            const data = await response.json();
-            setProduct(data);
-            console.log(data);
-        } catch (error) {
-            console.log("Fetch Data Error: ", error);
-        }
-    };
     useEffect(() => {
-        getProductDetail();
+        dispatch(productAction.getProductDetail(id));
     }, []);
 
     const clickBtnAdd = () => {
-        setChoiceProducts(prev => [...prev, product]);
+        dispatch(productAction.addChoiceProduct(product));
     };
 
     return (
@@ -60,7 +47,7 @@ const ProductDetail = ({
                     </p>
                     <Form.Select aria-label="Default select example">
                         <option disabled>사이즈 선택</option>
-                        {product?.size.map(i => 
+                        {product?.size?.map(i => 
                             <option value={i} key={i}>{i}</option>
                         )}
                     </Form.Select>

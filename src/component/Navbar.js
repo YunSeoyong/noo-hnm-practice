@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { faBagShopping, faBars, faCartShopping, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
+import { faBagShopping, faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
 import ShoppingCart from "./ShoppingCart";
+import { authenticateAction } from "../redux/actions/authenticateAction";
 
 const menuList = [
     "Women",
@@ -18,17 +20,14 @@ const menuList = [
     "지속가능성",
 ];
 
-const Navbar = ({
-    authenticate,
-    setAuthenticate,
-    setChoiceProducts,
-    choiceProducts,
-}) => {
+const Navbar = () => {
+    const authenticate = useSelector(state => state.auth.authenticate);
     const [menuToggle, setMenuToggle] = useState(false);
     const [side, setSide] = useState(false);
     const [search, setSearch] = useState('');
     const [cart, setCart] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if(menuToggle) {
@@ -48,7 +47,7 @@ const Navbar = ({
     };
     const goToLogout = () => {
         if (window.confirm('정말 로그아웃 하시겠습니까?')) {
-            setAuthenticate(false);
+            dispatch(authenticateAction.logout())
             navigate('/');
         }
     };
@@ -83,7 +82,7 @@ const Navbar = ({
                 <Cart onClick={() => setCart(true)}>
                     <FontAwesomeIcon icon={faBagShopping} size="xl" />
                 </Cart>
-                <ShoppingCart cart={cart} setCart={setCart} choiceProducts={choiceProducts} setChoiceProducts={setChoiceProducts} />
+                <ShoppingCart cart={cart} setCart={setCart} />
                 <Utill onClick={authenticate ? goToLogout : goToLogin}>
                     <FontAwesomeIcon icon={faUser} size="xl" />
                     <p className="utill-text">{

@@ -22,7 +22,7 @@ const SlideBn = () => {
         >
             {
                 bnList.map((slide, idx) => 
-                    <SwiperSlide>
+                    <SwiperSlide key={slide}>
                         <img src={`/assets/main${idx + 1}.jpg`} alt={slide} />
                         <BnTitle $idx={idx}>{slide}</BnTitle>
                     </SwiperSlide>

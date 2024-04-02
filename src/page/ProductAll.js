@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import { Col, Container, Row } from 'react-bootstrap';
+
+import { productAction } from './../redux/actions/productAction';
 
 import ProductCard from '../component/ProductCard';
 import SlideBn from '../component/SlideBn';
 
 const ProductAll = () => {
-    const [productList, setProductList] = useState([]);
+    const productList = useSelector(state => state.product.productList);
     const [query, setQuery] = useSearchParams();
+    const dispatch = useDispatch();
 
-    const getProducts = async () => {
+    const getProducts = () => {
         const searchQuery = query.get('q') || "";
-        const url = `https://my-json-server.typicode.com/YunSeoyong/noo-hnm-practice/products/?q=${searchQuery}`;
-        try {
-            const response = await fetch(url);
-            if(!response.ok) {
-                throw new Error("데이터를 불러오지 못하고 있습니다.")
-            }
-            const data = await response.json();
-            setProductList(data);
-        } catch (error) {
-            console.log("Fetch Data Error: ", error);
-        }
+        dispatch(productAction.getProducts(searchQuery));
     };
 
     useEffect(() => {
