@@ -7,7 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping, faBars, faSearch, faX } from "@fortawesome/free-solid-svg-icons";
 import ShoppingCart from "./ShoppingCart";
-import { authenticateAction } from "../redux/actions/authenticateAction";
+
+// import { authenticateAction } from "../redux/actions/authenticateAction";
+import { logOutSuccess } from "../redux/slices/authenticateSlice";
 
 const menuList = [
     "Women",
@@ -47,7 +49,7 @@ const Navbar = () => {
     };
     const goToLogout = () => {
         if (window.confirm('정말 로그아웃 하시겠습니까?')) {
-            dispatch(authenticateAction.logout())
+            dispatch(logOutSuccess())
             navigate('/');
         }
     };

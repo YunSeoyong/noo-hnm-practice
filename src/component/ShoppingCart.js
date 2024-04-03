@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,29 +7,17 @@ import { faCartShopping, faX } from "@fortawesome/free-solid-svg-icons";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 import { priceComma } from "../utill/priceComma";
-import { useDispatch, useSelector } from "react-redux";
-import { productAction } from "../redux/actions/productAction";
+
+import { productActions } from "../redux/slices/productSlice";
+const { deleteChoiceProduct } = productActions;
 
 const ShoppingCart = ({ cart, setCart }) => {
     const choiceProducts = useSelector(state => state.product.choiceProducts);
+    const totalPrice = useSelector(state => state.product.totalPrice);
     const dispatch = useDispatch();
-    const [totalPrice, setTotalPrice] = useState(0);
-
-    useEffect(() => {
-        calcPrice();
-    }, [choiceProducts]);
-
-    const calcPrice = () => {
-        let total = 0;
-        for (let item of choiceProducts) {
-            const { price } = item;
-            total += price;
-        }
-        setTotalPrice(total);
-    };
 
     const deleteProduct = (targetId) => {
-        dispatch(productAction.deleteChoiceProduct(targetId, totalPrice, setTotalPrice));
+        dispatch(deleteChoiceProduct({ id: targetId }));
     };
 
     const cancelBag = () => {

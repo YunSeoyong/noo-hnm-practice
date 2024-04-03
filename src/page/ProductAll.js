@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { productAction } from './../redux/actions/productAction';
+// import { productAction } from './../redux/actions/productAction';
+import { fetchProducts } from '../redux/slices/productSlice';
 
 import ProductCard from '../component/ProductCard';
 import SlideBn from '../component/SlideBn';
@@ -15,21 +16,22 @@ const ProductAll = () => {
     const [query, setQuery] = useSearchParams();
     const dispatch = useDispatch();
 
-    const getProducts = () => {
+    
+    const getAllProducts = useCallback (() => {
         const searchQuery = query.get('q') || "";
-        dispatch(productAction.getProducts(searchQuery));
-    };
+        dispatch(fetchProducts(searchQuery));
+    }, [dispatch, query]);
 
     useEffect(() => {
-        getProducts();
-    }, [query]);
+        getAllProducts();
+    }, [query, getAllProducts]);
 
   return (
     <ProdcutPage>
         <SlideBn />
         <Container fluid="true">
             <Row>
-                {productList.map(menu => 
+                {productList?.map(menu => 
                     <Col xs={6} md={4} xl={3} key={menu.id}><ProductCard item={menu} /></Col>
                 )}
             </Row>

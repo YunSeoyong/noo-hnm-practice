@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { authenticateAction } from "../redux/actions/authenticateAction";
+// import { authenticateAction } from "../redux/actions/authenticateAction";
+import { logInSuccess } from "../redux/slices/authenticateSlice";
 
 import { Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -20,7 +21,7 @@ const Login = () => {
             return;
         };
         e.preventDefault();
-        dispatch(authenticateAction.login(email, password));
+        dispatch(logInSuccess({email, password}));
         navigate(-1);
     };
 

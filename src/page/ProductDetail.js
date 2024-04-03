@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 
+import styled from "styled-components";
 import { Col, Container, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from 'react-bootstrap/Button';
@@ -11,8 +12,9 @@ import { faEnvelope, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping, faCartShopping, faRuler } from "@fortawesome/free-solid-svg-icons";
 
 import { priceComma } from "../utill/priceComma";
-import { useDispatch, useSelector } from "react-redux";
-import { productAction } from "../redux/actions/productAction";
+
+import { fetchProductDetail, productActions } from "../redux/slices/productSlice";
+const { addChoiceProduct } = productActions;
 
 const ProductDetail = () => {
     const product = useSelector(state => state.product.product);
@@ -20,11 +22,13 @@ const ProductDetail = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        dispatch(productAction.getProductDetail(id));
-    }, []);
+        dispatch(fetchProductDetail(id));
+    }, [dispatch, id]);
 
     const clickBtnAdd = () => {
-        dispatch(productAction.addChoiceProduct(product));
+        dispatch(addChoiceProduct({
+            item: product
+        }));
     };
 
     return (
